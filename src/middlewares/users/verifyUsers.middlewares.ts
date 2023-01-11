@@ -3,9 +3,10 @@ import AppDataSource from "../../data-source";
 import { AppError } from "../../error/appError";
 import { decode, JwtPayload } from "jsonwebtoken";
 import { Users } from "../../entities/users.entitiy";
+
 const userRepo = AppDataSource.getRepository(Users);
 
-export const verifyExistsUser = async (
+export const verifyExistsUserMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -17,7 +18,7 @@ export const verifyExistsUser = async (
   return next();
 };
 
-export const verifyAuth = async (
+export const verifyAuthMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -28,7 +29,7 @@ export const verifyAuth = async (
   return next();
 };
 
-export const verifyAdm = async (
+export const verifyAdmMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
