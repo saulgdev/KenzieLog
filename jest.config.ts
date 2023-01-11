@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/configuration
@@ -31,6 +32,9 @@ export default {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
+=======
+module.exports = {
+>>>>>>> 0ad752add04a4635fd5bc609b1201bd28c6684cf
   coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
@@ -101,6 +105,7 @@ export default {
 
   // A preset that is used as a base for Jest's configuration
   preset: "ts-jest",
+<<<<<<< HEAD
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -192,4 +197,15 @@ export default {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+=======
+  testMatch: ["**/__tests__/integrations/**/*.[jt]s?(x)"],
+  roots: ["<rootDir>/src"],
+  collectCoverageFrom: ["<rootDir>/src/*/.ts"],
+  coverageDirectory: "coverage",
+  testEnvironment: "node",
+  transform: { ".+.ts$": "ts-jest" },
+  moduleNameMapper: {
+    "@/(.*)": "<rootDir>/src/$1",
+  },
+>>>>>>> 0ad752add04a4635fd5bc609b1201bd28c6684cf
 };
