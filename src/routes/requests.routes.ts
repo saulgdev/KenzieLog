@@ -1,11 +1,11 @@
 import { Router } from "express";
 
-const requestRoutes = Router();
+const requestsRoutes = Router();
 
-requestRoutes.post("");
-requestRoutes.get(""); 
-requestRoutes.get("/:id") // Should be able to search a order per id;
-requestRoutes.patch("");
-requestRoutes.delete("");
+requestsRoutes.post("");
+requestsRoutes.get(""); 
+requestsRoutes.get("/:id") // Should be able to search a order per id;
+requestsRoutes.patch("");
+requestsRoutes.delete("");
 
-export default requestRoutes
+export default requestsRoutes
