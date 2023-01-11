@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-const sessionsRoutes = Router();
+const loginRoutes = Router();
 
-sessionsRoutes.post("");
+loginRoutes.post("");
 
-export default sessionsRoutes;
+export default loginRoutes;
 
 
