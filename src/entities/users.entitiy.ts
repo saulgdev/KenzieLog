@@ -2,10 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import { Address } from "./address.entity";
 import { Requests } from "./requests.entity";
 
 @Entity("users")
@@ -36,4 +39,8 @@ export class Users {
 
   @OneToMany(() => Requests, (requests) => requests.user)
   request: Requests[];
+
+  @OneToOne(() => Address)
+  @JoinColumn()
+  address: Address;
 }
