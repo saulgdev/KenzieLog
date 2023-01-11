@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import AppDataSource from "../data-source";
-import { Users } from "../entities/userEntities";
-import { AppError } from "../error/appError";
+import AppDataSource from "../../data-source";
+import { AppError } from "../../error/appError";
 import { decode, JwtPayload } from "jsonwebtoken";
+import { Users } from "../../entities/users.entitiy";
 const userRepo = AppDataSource.getRepository(Users);
 
 export const verifyExistsUser = async (

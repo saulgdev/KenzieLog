@@ -3,7 +3,7 @@ import "express-async-errors";
 import express from "express";
 import { handler } from "./error/handler";
 import usersRoutes from "./routes/users.routes";
-import loginRoutes from "./routes/session.routes";
+import loginRoutes from "./routes/login.routes";
 import requestsRoutes from "./routes/requests.routes";
 
 const app = express();
