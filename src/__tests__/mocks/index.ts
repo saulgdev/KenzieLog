@@ -1,23 +1,23 @@
 export const mockedUser = {
-  name: "Joana",
-  email: "joana@mail.com",
+  name: "Saul",
+  email: "saul@mail.com",
   isAdm: false,
   password: "123456",
 };
 
 export const mockedAdmin = {
-  name: "Felipe",
-  email: "felipe@mail.com",
+  name: "Marcio",
+  email: "marcio@mail.com",
   isAdm: true,
   password: "123456",
 };
 
 export const mockedUserLogin = {
-  email: "joana@mail.com",
+  email: "saul@mail.com",
   password: "123456",
 };
 
 export const mockedAdminLogin = {
-  email: "felipe@mail.com",
+  email: "marcio@mail.com",
   password: "123456",
 };
