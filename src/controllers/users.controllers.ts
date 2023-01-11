@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { ICreateUser } from "../interfaces/users.interfaces";
+import { ICreateUser } from "../interfaces/users/users.interfaces";
 import createUserService from "../services/users/createUser.service";
 
 const createUserController = async (req: Request, res: Response) => {

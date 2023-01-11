@@ -1,7 +1,7 @@
 import AppDataSource from "../../data-source";
 import { Address } from "../../entities/address.entity";
 import { Users } from "../../entities/users.entitiy";
-import { ICreateUser } from "../../interfaces/users.interfaces";
+import { ICreateUser } from "../../interfaces/users/users.interfaces";
 import { showUserWithoutPass } from "../../schemas/users.schemas";
 
 const createUserService = async (payload: ICreateUser) => {

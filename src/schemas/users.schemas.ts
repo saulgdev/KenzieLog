@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { ICreateUser, IUserWithoutPass } from "../interfaces/users.interfaces";
+import { ICreateUser, IUserWithoutPass } from "../interfaces/users/users.interfaces";
 
 const createUserSchema: SchemaOf<ICreateUser> = yup.object().shape({
   name: yup.string().required().max(72),
