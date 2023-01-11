@@ -1,4 +1,7 @@
+import { getRounds, hashSync } from "bcryptjs";
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -43,4 +46,13 @@ export class Users {
   @OneToOne(() => Address)
   @JoinColumn()
   address: Address;
+
+  @BeforeUpdate()
+  @BeforeInsert()
+  hashPassword() {
+    const isEncrypted = getRounds(this.password);
+    if (!isEncrypted) {
+      this.password = hashSync(this.password, 10);
+    }
+  }
 }
