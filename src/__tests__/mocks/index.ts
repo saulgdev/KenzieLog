@@ -3,6 +3,13 @@ export const mockedUser = {
   email: "saul@mail.com",
   isAdm: false,
   password: "123456",
+  address: {
+    district: "Rua Heleodo Pires de camargo",
+    zipCode: "18150000",
+    number: "67",
+    city: "Piedade",
+    state: "SP",
+  },
 };
 
 export const mockedAdmin = {

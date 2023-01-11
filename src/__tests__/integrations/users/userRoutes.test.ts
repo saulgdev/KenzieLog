@@ -41,6 +41,12 @@ describe("/users", () => {
     expect(response.body.email).toEqual("saul@mail.com");
     expect(response.body.isAdm).toEqual(false);
     expect(response.body.isActive).toEqual(true);
+    expect(response.body.address).toHaveProperty("id");
+    expect(response.body.address).toHaveProperty("district");
+    expect(response.body.address).toHaveProperty("zipCode");
+    expect(response.body.address).toHaveProperty("number");
+    expect(response.body.address).toHaveProperty("city");
+    expect(response.body.address).toHaveProperty("state");
     expect(response.status).toBe(201);
   });
 
