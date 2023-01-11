@@ -15,8 +15,8 @@ const showUserWithoutPass: SchemaOf<IUserWithoutPass> = yup.object().shape({
   isAdm: yup.boolean().required(),
   id: yup.string().required(),
   isActive: yup.boolean().required(),
-  createdAt:yup.string().required(),
-  updatedAt:yup.string().required(),
-})
+  createdAt: yup.string().required(),
+  updatedAt: yup.string().required(),
+});
 
-export { createUserSchema, showUserWithoutPass};
+export { createUserSchema, showUserWithoutPass };
