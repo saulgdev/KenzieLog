@@ -1,53 +1,139 @@
 import { Request, Response, NextFunction } from "express";
 import AppDataSource from "../../data-source";
 import { AppError } from "../../error/appError";
-import { decode, JwtPayload } from "jsonwebtoken";
+// import { decode, JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { Users } from "../../entities/users.entitiy";
+import { SchemaOf } from "yup";
+import { IUserUpdate } from "../../interfaces/users/users.interfaces";
 
 const userRepo = AppDataSource.getRepository(Users);
 
-export const verifyExistsUserMiddleware = async (
+const verifyExistsUserMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const users = await userRepo.findOneBy({ email: req.body.email });
-  const { originalUrl: path } = req;
-
-  if (users && path == "/users") {
+  if (users) {
     throw new AppError("Já existe um usuário com este email", 409);
   }
-
-  if (!users && path == "/login") {
-    throw new AppError("Email ou senha inválidos.", 403);
-  }
-
-  req.validatedUser = users;
   return next();
 };
 
-export const verifyAuthMiddleware = async (
+const verifyAuthMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.headers.authorization) {
-    throw new AppError("Usuário sem autorização", 401);
+  try {
+    let token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).json({
+        message: "Invalid token",
+      });
+    }
+
+    token = token.split(" ")[1];
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded: any) => {
+      req.user = {
+        id: decoded.sub,
+        isAdm: decoded.isAdm,
+      };
+
+      next();
+    });
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
   }
-  return next();
 };
 
-export const verifyAdmMiddleware = async (
+const verifyAdmMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const auth = req.headers.authorization;
-  const token = auth.split(" ")[1];
-  const isAdm = decode(token) as JwtPayload;
+  const isAdm = req.user.isAdm;
 
-  if (!isAdm.isAdm) {
-    throw new AppError("Usuário sem autorização", 403);
+  if (!isAdm) {
+    return res.status(403).json({ message: "unauthorized" });
+  }
+  next();
+};
+
+const verifyActiveUserMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const active = req.body.isActive;
+
+  if (active || active === false) {
+    return res.status(401).json({ message: "Bad request" });
+  }
+
+  next();
+};
+
+const verifyIdUpdateAuthAdmMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const id = req.body.id;
+
+  if (id || id === false) {
+    return res.status(401).json({
+      message: "User is not admin!",
+    });
+  }
+
+  return next();
+};
+
+const verifyUpdateAuthAdmMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const isAdm = req.user.isAdm;
+  const body = req.body.isAdm;
+
+  if (body || body === false) {
+    return res.status(401).json({
+      message: "User is not admin!",
+    });
+  }
+  if (!isAdm) {
+    return res.status(401).json({
+      message: "User is not admin!",
+    });
   }
   return next();
+};
+
+const verifyUpdateUserMiddleware =
+  (schema: SchemaOf<IUserUpdate>) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    const data = req.body;
+
+    const validatedData = await schema.validate(data, {
+      stripUnknown: true,
+    });
+
+    req.userUpdate = validatedData;
+
+    next();
+  };
+
+export {
+  verifyExistsUserMiddleware,
+  verifyAuthMiddleware,
+  verifyAdmMiddleware,
+  verifyActiveUserMiddleware,
+  verifyIdUpdateAuthAdmMiddleware,
+  verifyUpdateAuthAdmMiddleware,
+  verifyUpdateUserMiddleware,
 };
