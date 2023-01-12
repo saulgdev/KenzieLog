@@ -3,7 +3,7 @@ import { Response, Request } from "express";
 import createRequestService from "../services/requests/createRequest.service";
 import deleteRequestService from "../services/requests/deleteRequest.service";
 import listAllRequestService from "../services/requests/listAllRequest.service";
-import listRequestUserService from "../services/requests/listRequestUser.service";
+import getRequestService from "../services/requests/listRequestUser.service";
 import updateRequestAdmiService from "../services/requests/updateRequestAdmi.service";
 import updateRequestUserService from "../services/requests/updateRequestUser.service";
 
@@ -14,9 +14,9 @@ const createRequestController = async (req: Request, res: Response) => {
   return res.status(201).json(data);
 };
 
-const listRequestUserController = async (req: Request, res: Response) => {
+const getRequestController = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const data = await listRequestUserService(id);
+  const data = await getRequestService(id);
 
   return res.status(200).json(data);
 };
@@ -26,15 +26,12 @@ const listAllRequestController = async (req: Request, res: Response) => {
   return res.status(200).json(data);
 };
 
-const updateRequestUserController = async (req: Request, res: Response) => {
-  const { body } = req;
-  const data = await updateRequestUserService(body);
 
-  return res.status(200).json(data);
-};
-
-const updateRequestAdmiController = async (req: Request, res: Response) => {
+const updateRequestController = async (req: Request, res: Response) => {
   const { body } = req;
+
+  // const data = await updateRequestUserService(body);
+
   const data = await updateRequestAdmiService(body);
 
   return res.status(200).json(data);
@@ -49,9 +46,8 @@ const deleteRequestController = async (req: Request, res: Response) => {
 
 export {
   createRequestController,
-  listRequestUserController,
+  getRequestController,
   listAllRequestController,
-  updateRequestUserController,
-  updateRequestAdmiController,
+  updateRequestController,
   deleteRequestController,
 };
