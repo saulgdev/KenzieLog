@@ -5,6 +5,7 @@ export interface ICreateUserAddress {
   city: string;
   state: string;
 }
+
 export interface ICreateUserAddressSchema {
   id: string;
   district: string;
@@ -32,3 +33,15 @@ export interface IUserWithoutPass {
   updatedAt: string;
   address: ICreateUserAddressSchema;
 }
+
+export interface IUserCompleted {
+  id: string;
+  password: string;
+  name: string;
+  email: string;
+  isAdm: boolean;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+

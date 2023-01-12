@@ -1,7 +1,10 @@
+import { ILoginUser } from "../../interfaces/login.interfaces";
+
 declare global {
   namespace Express {
     interface Request {
-      validatedBody: object;
+      validatedBody: ICreateUser | ILoginUser;
+      validatedUser: IUserCompleted;
     }
   }
 }

@@ -17,6 +17,13 @@ export const mockedAdmin = {
   email: "marcio@mail.com",
   isAdm: true,
   password: "123456",
+  address: {
+    district: "Rua Santa Ana",
+    zipCode: "26054188",
+    number: "21",
+    city: "Rio de Janeiro",
+    state: "RJ",
+  },
 };
 
 export const mockedUserLogin = {

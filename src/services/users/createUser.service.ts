@@ -19,6 +19,8 @@ const createUserService = async (payload: ICreateUser) => {
     stripUnknown: true,
   });
 
+  console.log(userWithoutPass)
+
   return userWithoutPass;
 };
 
