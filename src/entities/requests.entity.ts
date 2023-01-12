@@ -29,5 +29,5 @@ export class Requests {
   updatedAt: Date;
 
   @ManyToOne(() => Users, (users) => users.request)
-  user: Users[];
+  user: Users;
 }
