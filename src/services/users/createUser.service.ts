@@ -2,7 +2,7 @@ import AppDataSource from "../../data-source";
 import { Address } from "../../entities/address.entity";
 import { Users } from "../../entities/users.entitiy";
 import { showUserWithoutPass } from "../../schemas/users.schemas";
-import { ICreateUser } from "../../interfaces/users.interfaces";
+import { ICreateUser } from "../../interfaces/users/users.interfaces";
 
 const createUserService = async (payload: ICreateUser) => {
   const { name, email, password, isAdm, address } = payload;
@@ -19,7 +19,7 @@ const createUserService = async (payload: ICreateUser) => {
     stripUnknown: true,
   });
 
-  console.log(userWithoutPass)
+  console.log(userWithoutPass);
 
   return userWithoutPass;
 };

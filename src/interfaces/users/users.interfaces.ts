@@ -1,37 +1,29 @@
-export interface ICreateUserAddress {
-  district: string;
-  zipCode: string;
-  number?: string;
-  city: string;
-  state: string;
-}
-
-export interface ICreateUserAddressSchema {
-  id: string;
-  district: string;
-  zipCode: string;
-  number?: string;
-  city: string;
-  state: string;
-}
+import { iAddressRequest } from "../address/address.interfaces";
 
 export interface ICreateUser {
   name: string;
   email: string;
   password: string;
   isAdm: boolean;
-  address: ICreateUserAddress;
+  address: iAddressRequest;
 }
 
 export interface IUserWithoutPass {
-  id: string;
   name: string;
   email: string;
   isAdm: boolean;
+  id: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
-  address: ICreateUserAddressSchema;
+  address: iAddressRequest;
+}
+
+export interface IUserUpdate {
+  name?: string;
+  email?: string;
+  passowrd?: string;
+  address?: iAddressRequest;
 }
 
 export interface IUserCompleted {
@@ -44,4 +36,3 @@ export interface IUserCompleted {
   createdAt: string;
   updatedAt: string;
 }
-

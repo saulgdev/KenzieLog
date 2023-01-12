@@ -1,11 +1,11 @@
 import { compareSync } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { AppError } from "../../error/appError";
-import { ILoginUser } from "../../interfaces/login.interfaces";
-import { IUserCompleted } from "../../interfaces/users.interfaces";
+import { IUserLogin } from "../../interfaces/session/login.interfaces";
+import { IUserCompleted } from "../../interfaces/users/users.interfaces";
 
 const loginUserService = async (
-  payload: ILoginUser,
+  payload: IUserLogin,
   comparePayload: IUserCompleted
 ) => {
   const { password: payloadPass, email } = payload;

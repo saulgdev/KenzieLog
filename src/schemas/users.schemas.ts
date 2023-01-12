@@ -1,7 +1,10 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { ILoginUser } from "../interfaces/login.interfaces";
-import { ICreateUser, IUserWithoutPass } from "../interfaces/users.interfaces";
+import { IUserLogin } from "../interfaces/session/login.interfaces";
+import {
+  ICreateUser,
+  IUserWithoutPass,
+} from "../interfaces/users/users.interfaces";
 
 const createUserSchema: SchemaOf<ICreateUser> = yup.object().shape({
   name: yup.string().required().max(72),
@@ -35,11 +38,9 @@ const showUserWithoutPass: SchemaOf<IUserWithoutPass> = yup.object().shape({
   id: yup.string().required(),
 });
 
-const loginUserSchema: SchemaOf<ILoginUser> = yup.object().shape({
+const loginUserSchema: SchemaOf<IUserLogin> = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required(),
 });
-
-
 
 export { createUserSchema, showUserWithoutPass, loginUserSchema };
