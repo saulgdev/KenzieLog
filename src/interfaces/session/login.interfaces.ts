@@ -1,15 +1,13 @@
-export interface ICreateUser {
-  name: string;
+export interface IUserLogin {
   email: string;
   password: string;
-  isAdm: boolean;
 }
-
-export interface IUserWithoutPass {
+export interface IUserCompleted {
+  id: string;
+  password: string;
   name: string;
   email: string;
   isAdm: boolean;
-  id: string;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
