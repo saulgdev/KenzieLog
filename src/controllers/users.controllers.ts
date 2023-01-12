@@ -4,6 +4,7 @@ import createUserService from "../services/users/createUser.service";
 import listUsersService from "../services/users/listUsers.service";
 import searchUserService from "../services/users/searchUser.service";
 import updateUserService from "../services/users/updateUser.service";
+import deleteUserService from "../services/users/deleteUser.service";
 
 const createUserController = async (req: Request, res: Response) => {
   const { validatedBody } = req;
@@ -32,7 +33,10 @@ const updateUserController = async (req: Request, res: Response) => {
 }
 
 const deleteUserController = async (req: Request, res: Response) => {
-
+  const status = await deleteUserService(req.params)
+  return res.status(status).json({
+      message: "USUÁRIO DESATIVADO COM SUCESSO!"
+  })
 }
 
 
