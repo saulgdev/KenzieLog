@@ -12,9 +12,17 @@ export const verifyExistsUserMiddleware = async (
   next: NextFunction
 ) => {
   const users = await userRepo.findOneBy({ email: req.body.email });
-  if (users) {
+  const { originalUrl: path } = req;
+
+  if (users && path == "/users") {
     throw new AppError("Já existe um usuário com este email", 409);
   }
+
+  if (!users && path == "/login") {
+    throw new AppError("Email ou senha inválidos.", 403);
+  }
+
+  req.validatedUser = users;
   return next();
 };
 
