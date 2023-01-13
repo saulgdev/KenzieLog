@@ -46,4 +46,32 @@ describe("/requests", () => {
     expect(response.body.address).toHaveProperty("state");
     expect(response.status).toBe(201);
   });
+
+  test("GET /requests -  Must be able to list all requests", async () => {
+    const response = await request(app).get("/requests");
+    expect(response.body).toHaveLength(1);
+    expect(response.status).toBe(200);
+  });
+
+  test("PATCH /requests/:id - should be able to update request status", async () => {
+    const newValues = { status: "completo" };
+
+    const admingLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedAdminLogin);
+    const token = `Bearer ${admingLoginResponse.body.token}`;
+
+    const requestTobeUpdateRequest = await request(app)
+      .get("/requests")
+      .set("Authorization", token);
+    const requestTobeUpdateId = requestTobeUpdateRequest.body[0].id;
+
+    const response = await request(app)
+      .patch(`/requests/${requestTobeUpdateId}`)
+      .set("Authorization", token)
+      .send(newValues);
+
+    expect(response.body).toHaveProperty("message");
+    expect(response.status).toBe(200);
+  });
 });
