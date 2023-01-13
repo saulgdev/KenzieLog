@@ -5,6 +5,7 @@ import listUsersService from "../services/users/listUsers.service";
 import searchUserService from "../services/users/searchUser.service";
 import updateUserService from "../services/users/updateUser.service";
 import deleteUserService from "../services/users/deleteUser.service";
+import { userPatchSchema } from "../schemas/users.schemas";
 
 const createUserController = async (req: Request, res: Response) => {
   const { validatedBody } = req;
@@ -29,7 +30,11 @@ const searchOrderByUserController = async (req: Request, res: Response) => {
 
 const updateUserController = async (req: Request, res: Response) => {
   const updatedUser = await updateUserService(req.params, req.body)
-  return res.status(201).json(updatedUser)
+  const validatedData = await userPatchSchema.validate(updatedUser, {
+    abortEarly: false,
+    stripUnknown: true
+})
+  return res.status(200).json(validatedData)
 }
 
 const deleteUserController = async (req: Request, res: Response) => {
