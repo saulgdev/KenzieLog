@@ -1,33 +1,31 @@
-import { compareSync } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import AppDataSource from "../../data-source";
+import { Users } from "../../entities/users.entitiy";
 import { AppError } from "../../error/appError";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { IUserLogin } from "../../interfaces/session/login.interfaces";
-import { IUserCompleted } from "../../interfaces/users/users.interfaces";
 
-const loginUserService = async (
-  payload: IUserLogin,
-  comparePayload: IUserCompleted
-) => {
-  const { password: payloadPass, email } = payload;
-  const { password: comparePass, id, isActive } = comparePayload;
-  const hashCompare = compareSync(payloadPass, comparePass);
+const loginUserService = async ({ email, password }: IUserLogin) => {
+  const userRepository = AppDataSource.getRepository(Users);
 
-  if (!isActive) {
-    throw new AppError("Usuário não está ativo.", 400);
+  const dataUser = await userRepository.findOneBy({ email });
+
+  if (!dataUser) {
+    throw new AppError("Wrong email/password", 403);
+  }
+  if (!bcrypt.compareSync(password, dataUser.password)) {
+    throw new AppError("Wrong email/password", 403);
+  }
+  if (!dataUser.isActive) {
+    throw new AppError("User don't exist", 400);
   }
 
-  if (!hashCompare) {
-    throw new AppError("Email ou senha inválidos.", 403);
-  }
-
-  const secretKeyToken = process.env.SECRET_KEY || "SECRETKEY";
-
-  const token = sign({ id }, secretKeyToken, {
+  const token = jwt.sign({ isAdm: dataUser.isAdm }, process.env.SECRET_KEY, {
     expiresIn: "24h",
-    subject: email,
+    subject: String(dataUser.id),
   });
 
-  return { token };
+  return token;
 };
 
 export default loginUserService;
