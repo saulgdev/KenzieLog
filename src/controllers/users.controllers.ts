@@ -30,10 +30,10 @@ const searchOrderByUserController = async (req: Request, res: Response) => {
 
 const updateUserController = async (req: Request, res: Response) => {
   const updatedUser = await updateUserService(req.params, req.body)
-//   const validatedData = await userPatchSchema.validate(updatedUser, {
-//     abortEarly: false,
-//     stripUnknown: true
-// })
+  const validatedData = await userPatchSchema.validate(updatedUser, {
+    abortEarly: false,
+    stripUnknown: true
+})
   return res.status(200).json(validatedData)
 }
 
