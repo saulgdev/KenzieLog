@@ -43,4 +43,12 @@ const loginUserSchema: SchemaOf<IUserLogin> = yup.object().shape({
   password: yup.string().required(),
 });
 
-export { createUserSchema, showUserWithoutPass, loginUserSchema };
+const userWithoutPasswordArraySchema: SchemaOf<IUserWithoutPass[]> =
+  yup.array(showUserWithoutPass);
+
+export {
+  createUserSchema,
+  showUserWithoutPass,
+  loginUserSchema,
+  userWithoutPasswordArraySchema,
+};
