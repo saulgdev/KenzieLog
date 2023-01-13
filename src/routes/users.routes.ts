@@ -12,11 +12,10 @@ usersRoutes.post(
   verifyExistsUserMiddleware,
   createUserController
 );
-// usersRoutes.get("", verifyAuthMiddleware, verifyAdmMiddleware, listUsersController);
-usersRoutes.get("", listUsersController);
+usersRoutes.get("", verifyAuthMiddleware, verifyAdmMiddleware, listUsersController);
 usersRoutes.get("/:id", searchUserController); // Should be able to search a user per ID.
 usersRoutes.get("/:id/requests"); // Should be able to search a orders that belonging a user.
 usersRoutes.patch("/:id", updateUserController);
-usersRoutes.delete("/:id", deleteUserController);
+usersRoutes.delete("/:id", verifyAuthMiddleware, verifyAdmMiddleware, deleteUserController);
 
 export default usersRoutes;

@@ -36,3 +36,12 @@ export interface IUserCompleted {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IUserPatch {
+    id: string
+    name: string
+    email: string
+    isAdm: boolean
+    createdAt: Date
+    updatedAt: Date
+}

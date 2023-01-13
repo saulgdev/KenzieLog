@@ -13,13 +13,15 @@ const updateUserService = async (params, body) => {
         throw new AppError("Usuário não existe.", 401)
     }
 
+    
     const updateUser = dataRepository.create({
         ...user,
-        ...body,
-        password: undefined,
+        ...body
     })
 
     await dataRepository.save(updateUser)
+
+    console.log(updateUser)
 
     return updateUser
 }
