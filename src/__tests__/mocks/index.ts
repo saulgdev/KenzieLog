@@ -35,3 +35,9 @@ export const mockedAdminLogin = {
   email: "marcio@mail.com",
   password: "123456",
 };
+
+export const mockedRequest = {
+  name: "pedido de entrega",
+  size: 5,
+  weight: 30,
+};
