@@ -19,6 +19,12 @@ export class Requests {
   @Column({ length: 256 })
   status: string;
 
+  @Column({type:"decimal" , precision:10 , scale:2})
+  weight:number
+
+  @Column({type:"decimal", precision:10, scale:2})
+  cubicMeters:number
+
   @Column()
   deadline: Date;
 
