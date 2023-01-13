@@ -33,7 +33,7 @@ Tecnologias utilizadas no projeto:
 - [Jest](https://jestjs.io/pt-BR/)
 
 URL base da aplicação:
-http://localhost:3000/
+https://kenzie-log.onrender.com
 
 ---
 
