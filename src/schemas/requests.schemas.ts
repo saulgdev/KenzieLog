@@ -1,4 +1,4 @@
-import * as yup from "yup";
+/* import * as yup from "yup";
 import { SchemaOf } from "yup";
 import { IRequestResponse } from "../interfaces/requests/requests.interfaces";
 
@@ -11,6 +11,13 @@ export const createRequestSchema: SchemaOf<IRequestResponse> = yup
     createdAt: yup.date().required(),
     updatedAt: yup.date().required(),
     user: yup.object().shape({
+      isActive: yup.boolean().required(),
+      isAdm: yup.boolean().required(),
+      updatedAt: yup.string().required(),
+      createdAt: yup.string().required(),
+      email: yup.string().email().required().max(256),
+      name: yup.string().required().max(72),
+      id: yup.string().required(),
       address: yup.object({
         id: yup.string().required(),
         district: yup.string().required(),
@@ -19,12 +26,6 @@ export const createRequestSchema: SchemaOf<IRequestResponse> = yup
         city: yup.string().required(),
         state: yup.string().required().max(2),
       }),
-      isActive: yup.boolean().required(),
-      isAdm: yup.boolean().required(),
-      updatedAt: yup.string().required(),
-      createdAt: yup.string().required(),
-      email: yup.string().email().required().max(256),
-      name: yup.string().required().max(72),
-      id: yup.string().required(),
     }),
   });
+ */
