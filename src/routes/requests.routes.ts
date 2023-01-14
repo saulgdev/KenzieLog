@@ -5,6 +5,7 @@ import { verifyIsAdmMiddleware } from "../middlewares/requests/verifyRequest.mid
 import {
   createRequestController,
   getRequestController,
+  listAllUserRequestController,
   listAllRequestController,
   updateRequestController,
   deleteRequestController,
@@ -19,6 +20,13 @@ requestsRoutes.get(
   verifyIsAdmMiddleware,
   listAllRequestController
 );
+
+requestsRoutes.get(
+  "/user/:userId",
+  verifyAuthMiddleware,
+  listAllUserRequestController
+);
+
 requestsRoutes.get("/:id", verifyAuthMiddleware, getRequestController); // Should be able to search a order per id;
 requestsRoutes.patch(
   "/:id",
