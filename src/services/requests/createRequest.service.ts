@@ -22,9 +22,9 @@ const createRequestService = async (data: ICreateRequest) => {
     throw new AppError("User not exists", 404);
   }
 
-  let time = Math.ceil(distance/80)
-  if(time >= 1) {
-    time = 2
+  let time = Math.ceil(distance / 80);
+  if (time >= 1) {
+    time = 2;
   }
 
   const now = new Date();
@@ -36,12 +36,14 @@ const createRequestService = async (data: ICreateRequest) => {
     weight,
     cubicMeters,
     deadline: now,
-    user: {...user}
-  }
+    user: { ...user, password: undefined },
+    address: user.address,
+  };
 
   const createdRequest = requestRepository.create(dataCreate);
 
   await requestRepository.save(createdRequest);
+
   return createdRequest;
 };
 

@@ -33,11 +33,11 @@ describe("/requests", () => {
       .send(mockedRequest);
 
     expect(response.body).toHaveProperty("id");
-    expect(response.body).toHaveProperty("value");
-    expect(response.body).toHaveProperty("size");
     expect(response.body).toHaveProperty("createdAt");
     expect(response.body).toHaveProperty("updatedAt");
     expect(response.body).toHaveProperty("address");
+    expect(response.body).toHaveProperty("cubicMeters");
+    expect(response.body).toHaveProperty("weight");
     expect(response.body.address).toHaveProperty("id");
     expect(response.body.address).toHaveProperty("district");
     expect(response.body.address).toHaveProperty("zipCode");
