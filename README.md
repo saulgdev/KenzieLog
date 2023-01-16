@@ -95,16 +95,16 @@ Por enquanto, não foi implementada autenticação.
 - [Users](#1-users)
     - [POST - /users](#11-criação-de-usuário)
     - [GET - /users](#12-listando-usuários)
-	- [GET - /users/:user_id](#13-listando-usuários-por-id)
+    - [GET - /users/:user_id](#13-listando-usuários-por-id)
     - [PATCH - /users](#14-editando-usuários-por-id)
     - [DELETE - /users](#15-deletando-usuários-por-id)
 - [Requests](#2-requests)
-    - [POST - /requests](#21-criação-de-requests)
-    - [GET - /requests](#22-listando-requests)
-	- [GET - /requests/:request_id](#23-listar-requests-por-id)
-    - [GET - /requests/user/:user_id](#24-listar-request-por-id-de-usuário)
-    - [PATCH - /requests](#25-editar-request)
-    - [DELETE - /requests](#26-deletar-request)
+    - [POST - /requests](#21-criação-de-pedidos)
+    - [GET - /requests](#22-listando-pedidos)
+    - [GET - /requests/:request_id](#23-listando-pedidos-por-id)
+    - [GET - /requests/user/:user_id](#24-listando-pedidos-por-id-de-usuário)
+    - [PATCH - /requests](#25-editando-pedidos)
+    - [DELETE - /requests](#26-deletando-pedidos)
 - [Login](#3-login)
     - [POST - /login](#31-login-de-usuário)
 ---
@@ -267,7 +267,7 @@ Vazio
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users`
+### `/users/:user_id`
 
 ### Exemplo de Request:
 ```
@@ -315,7 +315,7 @@ Vazio
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users`
+### `/users/:user_id`
 
 ### Exemplo de Request:
 ```
@@ -365,7 +365,7 @@ Content-type: application/json
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users`
+### `/users/:user_id`
 
 ### Exemplo de Request:
 ```
@@ -399,6 +399,342 @@ Vazio
 | 404 Not found      | User not found.           |
 
 ---
+
+## 2. **Requests**
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto Request é definido como:
+
+| Campo      | Tipo   | Descrição                                     	|
+| -----------|--------|-------------------------------------------------|
+| id         | string | Identificador único do usuário                  |
+| name       | string | O nome do usuário.                              |
+| status     | string | O e-mail do usuário.                            |
+| weight     | number | A senha de acesso do usuário                    |
+| cubicMeters | number | Define se um usuário é administrador ou não.   |
+| deadline   | Date | Define se um usuário está ativo ou não.         	|
+| createdAt  | Date | Data de criação do usuário.           		|	
+| updatedAt  | Date | Data de atualização do usuário.		        |
+
+### Endpoints
+
+| Método   | Rota       | Descrição                               		   |
+|----------|------------|----------------------------------------------------------|
+| POST     | /requests     | Criação de um pedido.                 		   |
+| GET      | /requests     | Lista todos os pedidos.                		   |
+| GET      | /requests/user/:user_id | Lista todos os pedidos de um usuário por ID |
+| GET      | /requests/:request_id | Lista um pedido por ID             	   |
+| PATCH    | /requests/:request_id | Edita um pedido por ID               	   |
+| DELETE   | /requests/:request_id | Deleta um pedido por ID                   	   |
+
+---
+
+### 2.1. **Criação de pedidos**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/requests`
+
+### Exemplo de Request:
+```
+POST /requests
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+{
+  "userId": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Package Name",
+  "weight": 80,
+  "cubicMeters": 3,
+  "distance": 128
+}
+```
+
+### Schema de Validação com Yup:
+```javascript
+  name: yup.string(),
+  status: yup.string(),
+  deadline: yup.string(),
+  weight: yup.number(),
+  cubicMeters: yup.number()
+```
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:	
+```
+201 Created
+```
+
+```json
+{
+  "id": "894c3b8e-4a32-4398-8c37-36c4d75f66c1",
+  "name": "Package Name",
+  "weight": 80,
+  "cubicMeters": 3,
+  "deadline": "27/02/2023"
+  "createdAt": "16/02/2023"
+  "updatedAt": "16/02/2023"
+  "user": {
+    "name": "Marcio",
+    "email": "marcio@mail.com",
+    "isAdm": true,
+    "password": "123456",
+    "address": {
+      "district": "Rua Santa Ana",
+      "zipCode": "26054188",
+      "number": "21",
+      "city": "Rio de Janeiro",
+      "state": "RJ",
+    },
+  }
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized | Invalid token.     	 |
+| 409 Conflict | Request already exists.         |
+| 404 Not Found | User not exists.               |
+
+---
+
+### 2.2. **Listando Pedidos**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/requests`
+
+### Exemplo de Request:
+```
+GET /requests
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+[
+  {
+    "id": "894c3b8e-4a32-4398-8c37-36c4d75f66c1",
+    "name": "Package name",
+    "status": "pending",
+    "weight": 80,
+    "cubicMeters": 3,
+    "deadline": "27/02/2023",
+    "createdAt": "16/02/2023",
+    "updatedAt": "16/02/2023",
+    "userId": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e"
+  }
+]
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 401 Unauthorized   | Not authorized.           |
+
+---
+
+### 2.3. **Listando pedidos por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/requests/:request_id`
+
+### Exemplo de Request:
+```
+GET /requests/894c3b8e-4a32-4398-8c37-36c4d75f66c1
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| request_id  | string      | Identificador único do pedido (Request) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+  "id": "894c3b8e-4a32-4398-8c37-36c4d75f66c1",
+  "name": "Package name",
+  "status": "pending",
+  "weight": 80,
+  "cubicMeters": 3,
+  "deadline": "27/02/2023",
+  "createdAt": "16/02/2023",
+  "updatedAt": "16/02/2023",
+  "userId": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 404 Not found      | Request not found.        |
+
+---
+
+### 2.4. **Listando pedidos por ID de usuário**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/requests/user/:user_id`
+
+### Exemplo de Request:
+```
+GET /requests/user/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+[
+  {
+    "id": "894c3b8e-4a32-4398-8c37-36c4d75f66c1",
+    "name": "Package name",
+    "status": "pending",
+    "weight": 80,
+    "cubicMeters": 3,
+    "deadline": "27/02/2023",
+    "createdAt": "16/02/2023",
+    "updatedAt": "16/02/2023"
+  }
+]
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 403 Forbidden      | Unauthorized.             |
+| 401 Unauthorized   | User not found.           |
+---
+
+### 2.5. **Editando Pedidos**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/requests/:request_id`
+
+### Exemplo de Request:
+```
+PATCH /requests/894c3b8e-4a32-4398-8c37-36c4d75f66c1
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin / User
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| request_id  | string      | Identificador único do pedido (Request) |
+
+### Corpo da Requisição:
+```json
+{
+  "status": "delivered"
+}
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+  "id": "894c3b8e-4a32-4398-8c37-36c4d75f66c1",
+  "name": "Package name",
+  "status": "delivered",
+  "weight": 80,
+  "cubicMeters": 3,
+  "deadline": "27/02/2023",
+  "createdAt": "16/02/2023",
+  "updatedAt": "16/02/2023",
+  "userId": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token / Not authorization.  |
+| 404 Not Found      | Request not found.        |
+
+---
+
+### 2.6. **Deletando Pedidos**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/requests/:request_id`
+
+### Exemplo de Request:
+```
+DELETE /requests/894c3b8e-4a32-4398-8c37-36c4d75f66c1
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin / User
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| request_id  | string      | Identificador único do pedido (Request) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+204 No Content
+```
+```json
+Vazio
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 404 Not found  | Request not found.     	 |
+| 400 Bad request | Request already delete.      |
 
 ---
 
