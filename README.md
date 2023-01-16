@@ -95,9 +95,9 @@ Por enquanto, não foi implementada autenticação.
 - [Users](#1-users)
     - [POST - /users](#11-criação-de-usuário)
     - [GET - /users](#12-listando-usuários)
-	- [GET - /users/:user_id](#13-listar-usuário-por-id)
-    - [PATCH - /users](#14-editar-usuário)
-    - [DELETE - /users](#15-deletar-usuário)
+	- [GET - /users/:user_id](#13-listando-usuários-por-id)
+    - [PATCH - /users](#14-editando-usuários-por-id)
+    - [DELETE - /users](#15-deletando-usuários-por-id)
 - [Requests](#2-requests)
     - [POST - /requests](#21-criação-de-requests)
     - [GET - /requests](#22-listando-requests)
@@ -106,7 +106,7 @@ Por enquanto, não foi implementada autenticação.
     - [PATCH - /requests](#25-editar-request)
     - [DELETE - /requests](#26-deletar-request)
 - [Login](#3-login)
-    - [POST - /login](#311-login-de-usuário)
+    - [POST - /login](#31-login-de-usuário)
 ---
 
 ## 1. **Users**
@@ -217,4 +217,246 @@ OBS.: Chaves não presentes no schema serão removidas.
 | 400 Bad Requiest | Missing fields.             |
 
 ---
+
+### 1.2. **Listando Usuários**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+```
+GET /users
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+[
+  {
+    "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+    "name": "Marcio",
+    "email": "marcio@mail.com",
+    "isAdm": true,
+    "isActive": true,
+    "createdAt": "16/01/2023",
+    "updatedAt": "16/01/2023",
+    "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+  }
+]
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 401 Unauthorized   | Bad Request.              |
+
+---
+
+### 1.3. **Listando Usuários por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+```
+GET /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Marcio",
+  "email": "marcio@mail.com",
+  "isAdm": true,
+  "isActive": true,
+  "createdAt": "16/01/2023",
+  "updatedAt": "16/01/2023",
+  "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 404 Not found      | User not found.           |
+
+---
+
+### 1.4. **Editando Usuários por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+```
+PATCH /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin / User
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+{
+  "email": "editingmail@mail.com"
+}
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Marcio",
+  "email": "editingmail@mail.com",
+  "isAdm": true,
+  "isActive": true,
+  "createdAt": "16/01/2023",
+  "updatedAt": "16/01/2023",
+  "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 403 Forbidden      | Unauthorized.             |
+| 401 Unauthorized      | User not found.        |
+---
+
+### 1.5. **Deletando Usuários por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+```
+DELETE /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin / User
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+204 No Content
+```
+```json
+Vazio
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 404 Not found      | User not found.           |
+
+---
+
+---
+
+## 3. **Login**
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto Login é definido como:
+
+| Campo      | Tipo   | Descrição                                     	|
+| -----------|--------|-------------------------------------------------|
+| email      | string | O e-mail do usuário.                            |
+| password   | string | A senha de acesso do usuário                    |
+
+### Endpoints
+
+| Método   | Rota       | Descrição                               		 |
+|----------|------------|--------------------------------------------------------|
+| POST     | /login     | Login de um usuário.                 		 |
+
+---
+
+### 3.1. **Login de usuário**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/login`
+
+### Exemplo de Request:
+```
+POST /login
+Host: https://kenzie-log.onrender.com
+Authorization: None
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+{
+  "email":"marcio@mail.com"
+  "password":"123456"
+}
+```
+### Exemplo de Response:
+```
+200 Ok
+```
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 403 Forbidden      | Wrong email/password.     |
+| 400 Bad Request    | User not found.           |
+
+
+
 
