@@ -38,6 +38,6 @@ export const mockedAdminLogin = {
 
 export const mockedRequest = {
   name: "pedido de entrega",
-  size: 5,
   weight: 30,
+  cubicMeters: 3,
 };

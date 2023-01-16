@@ -24,5 +24,5 @@ export interface IRequestUpdate {
   status?: string;
   deadline?: string;
   weight?: number;
-  meterCubic?: number;
+  cubicMeters?: number;
 }

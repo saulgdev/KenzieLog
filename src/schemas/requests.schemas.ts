@@ -38,5 +38,5 @@ export const createRequestSchema: SchemaOf<IRequestUpdate> = yup
     status: yup.string(),
     deadline: yup.string(),
     weight: yup.number(),
-    meterCubic: yup.number(),
+    cubicMeters: yup.number(),
   });
