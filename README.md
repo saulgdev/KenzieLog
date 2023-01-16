@@ -33,7 +33,7 @@ Tecnologias utilizadas no projeto:
 - [Jest](https://jestjs.io/pt-BR/)
 
 URL base da aplicação:
-http://localhost:3000/
+https://kenzie-log.onrender.com
 
 ---
 
@@ -107,5 +107,114 @@ Por enquanto, não foi implementada autenticação.
     - [DELETE - /requests](#26-deletar-request)
 - [Login](#3-login)
     - [POST - /login](#311-login-de-usuário)
+---
+
+## 1. **Users**
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto User é definido como:
+
+| Campo      | Tipo   | Descrição                                     	|
+| -----------|--------|-------------------------------------------------|
+| id         | string | Identificador único do usuário                  |
+| name       | string | O nome do usuário.                              |
+| email      | string | O e-mail do usuário.                            |
+| password   | string | A senha de acesso do usuário                    |
+| isAdm      | boolean | Define se um usuário é administrador ou não.   |
+| isActive   | boolean | Define se um usuário está ativo ou não.        |
+| createdAt  | Date | Data de criação do usuário.           		|	
+| updatedAt  | Date | Data de atualização do usuário.		        |
+| Address    | Object | Informações do endereço do usuário.             |
+
+### Endpoints
+
+| Método   | Rota       | Descrição                               		 |
+|----------|------------|--------------------------------------------------------|
+| POST     | /users     | Criação de um usuário.                 		 |
+| GET      | /users     | Lista todos os usuários                		 |
+| GET      | /users/:user_id | Lista um usuário por ID                           |
+| PATCH    | /users/:user_id | Edita Informações de um usuário por ID            |
+| DELETE   | /users/:user_id | Deleta um usuário por ID                          |
+
+---
+
+### 1.1. **Criação de Usuário**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+```
+POST /users
+Host: https://kenzie-log.onrender.com
+Authorization: None
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+{
+  "name": "Marcio",
+  "email": "marcio@mail.com",
+  "isAdm": true,
+  "password": "123456",
+  "address": {
+    "district": "Rua Santa Ana",
+    "zipCode": "26054188",
+    "number": "21",
+    "city": "Rio de Janeiro",
+    "state": "RJ",
+  },
+}
+```
+
+### Schema de Validação com Yup:
+```javascript
+  name: yup.string().required().max(72),
+  email: yup.string().email().required().max(256),
+  password: yup.string().required().max(65),
+  isAdm: yup.boolean().required(),
+  address: yup.object({
+    district: yup.string().required(),
+    zipCode: yup.string().required().max(8),
+    number: yup.string().notRequired(),
+    city: yup.string().required(),
+    state: yup.string().required().max(2),
+  }),
+```
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:
+```
+201 Created
+```
+
+```json
+{
+  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Marcio",
+  "email": "marcio@mail.com",
+  "isAdm": true,
+  "isActive": true,
+  "createdAt": "16/01/2023"
+  "updatedAt": "16/01/2023"
+  "address": {
+    "id": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+    "district": "Rua Santa Ana",
+    "zipCode": "26054188",
+    "number": "21",
+    "city": "Rio de Janeiro",
+    "state": "RJ",
+  },
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 409 Conflict   | Email already registered.     |
+| 400 Bad Requiest | Missing fields.             |
+
 ---
 
