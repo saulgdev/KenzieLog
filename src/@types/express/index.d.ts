@@ -9,7 +9,7 @@ declare global {
       validatedUser: IUserCompleted;
       user: {
         isAdm: boolean;
-        id: number;
+        id: string;
       };
       userUpdate: {
         email?: string;

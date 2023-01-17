@@ -5,7 +5,7 @@ import { Users } from "../../entities/users.entitiy";
 import { AppError } from "../../error/appError";
 import { ICreateRequest } from "../../interfaces/requests/requests.interfaces";
 
-const createRequestService = async (data: ICreateRequest) => {
+const createRequestService = async (data: ICreateRequest, idUser: string) => {
   const { name, userId, weight, cubicMeters } = data;
   const requestRepository = AppDataSource.getRepository(Requests);
   const requestAlreadyExists = await requestRepository.findOneBy({
@@ -17,10 +17,10 @@ const createRequestService = async (data: ICreateRequest) => {
 
   const userRepository = AppDataSource.getRepository(Users);
   const user = await userRepository.findOneBy({
-    id: userId,
+    id: idUser,
   });
   if (!user) {
-    throw new AppError("User not exists", 404);
+    throw new AppError("User not exists111", 404);
   }
 
   const now = new Date();
