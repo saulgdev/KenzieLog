@@ -8,8 +8,8 @@ import getRequestService from "../services/requests/listRequestUser.service";
 import updateRequestService from "../services/requests/updateRequest.service";
 
 const createRequestController = async (req: Request, res: Response) => {
-  const { body } = req;
-  const data = await createRequestService(body);
+  const { body, user } = req;
+  const data = await createRequestService(body, user.id);
 
   return res.status(201).json(data);
 };
@@ -28,6 +28,7 @@ const listAllUserRequestController = async (req: Request, res: Response) => {
 
 const listAllRequestController = async (req: Request, res: Response) => {
   const data = await listAllRequestService();
+
   return res.status(200).json(data);
 };
 
