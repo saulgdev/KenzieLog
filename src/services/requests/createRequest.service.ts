@@ -7,7 +7,9 @@ import { ICreateRequest } from "../../interfaces/requests/requests.interfaces";
 
 const createRequestService = async (data: ICreateRequest, idUser: string) => {
   const { name, userId, weight, cubicMeters } = data;
+
   const requestRepository = AppDataSource.getRepository(Requests);
+
   const requestAlreadyExists = await requestRepository.findOneBy({
     name: name,
   });
