@@ -28,6 +28,7 @@ const listAllUserRequestController = async (req: Request, res: Response) => {
 
 const listAllRequestController = async (req: Request, res: Response) => {
   const data = await listAllRequestService();
+
   return res.status(200).json(data);
 };
 
