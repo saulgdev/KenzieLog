@@ -1,3 +1,4 @@
+import { request } from "http";
 import AppDataSource from "../../data-source";
 import { Requests } from "../../entities/requests.entity";
 import { Users } from "../../entities/users.entitiy";
@@ -5,7 +6,7 @@ import { AppError } from "../../error/appError";
 import { ICreateRequest } from "../../interfaces/requests/requests.interfaces";
 
 const createRequestService = async (data: ICreateRequest) => {
-  const { name, userId, weight, cubicMeters, distance } = data;
+  const { name, userId, weight, cubicMeters } = data;
   const requestRepository = AppDataSource.getRepository(Requests);
   const requestAlreadyExists = await requestRepository.findOneBy({
     name: name,
@@ -22,14 +23,9 @@ const createRequestService = async (data: ICreateRequest) => {
     throw new AppError("User not exists", 404);
   }
 
-  let time = Math.ceil(distance / 80);
-  if (time >= 1) {
-    time = 2;
-  }
-
   const now = new Date();
 
-  now.setDate(now.getDate() + time);
+  now.setDate(now.getDate() + 7);
 
   const dataCreate = {
     name,
@@ -44,7 +40,14 @@ const createRequestService = async (data: ICreateRequest) => {
 
   await requestRepository.save(createdRequest);
 
-  return createdRequest;
+  const response = await requestRepository
+    .createQueryBuilder("requests")
+    .innerJoinAndSelect("requests.user", "users")
+    .innerJoinAndSelect("users.address", "address")
+    .where("requests.id = :id", { id: createdRequest.id })
+    .getMany();
+
+  return response;
 };
 
 export default createRequestService;
