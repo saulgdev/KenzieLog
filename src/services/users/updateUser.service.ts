@@ -1,29 +1,26 @@
-import AppDataSource from "../../data-source"
-import { Users } from "../../entities/users.entitiy"
-import { AppError } from "../../error/appError"
+import AppDataSource from "../../data-source";
+import { Users } from "../../entities/users.entitiy";
+import { AppError } from "../../error/appError";
 
 const updateUserService = async (params, body) => {
-    const dataRepository = AppDataSource.getRepository(Users)
+  const dataRepository = AppDataSource.getRepository(Users);
 
-    const user = await dataRepository.findOneBy({
-        id: params.id
-    })
+  const user = await dataRepository.findOneBy({
+    id: params.id,
+  });
 
-    if (!user) {
-        throw new AppError("Usuário não existe.", 401)
-    }
+  if (!user) {
+    throw new AppError("Usuário não existe.", 401);
+  }
 
-    
-    const updateUser = dataRepository.create({
-        ...user,
-        ...body
-    })
+  const updateUser = dataRepository.create({
+    ...user,
+    ...body,
+  });
 
-    await dataRepository.save(updateUser)
+  await dataRepository.save(updateUser);
 
-    console.log(updateUser)
+  return updateUser;
+};
 
-    return updateUser
-}
-
-export default updateUserService
+export default updateUserService;
