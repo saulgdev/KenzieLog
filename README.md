@@ -157,7 +157,7 @@ O objeto User é definido como:
 ### Exemplo de Request:
 ```
 POST /users
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: None
 Content-type: application/json
 ```
@@ -237,7 +237,7 @@ OBS.: Chaves não presentes no schema serão removidas.
 ### Exemplo de Request:
 ```
 GET /users
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -282,7 +282,7 @@ Vazio
 ### Exemplo de Request:
 ```
 GET /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -330,7 +330,7 @@ Vazio
 ### Exemplo de Request:
 ```
 PATCH /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin / User
 Content-type: application/json
 ```
@@ -380,7 +380,7 @@ Content-type: application/json
 ### Exemplo de Request:
 ```
 DELETE /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin / User
 Content-type: application/json
 ```
@@ -448,7 +448,7 @@ O objeto Request é definido como:
 ### Exemplo de Request:
 ```
 POST /requests
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token
 Content-type: application/json
 ```
@@ -522,7 +522,7 @@ OBS.: Chaves não presentes no schema serão removidas.
 ### Exemplo de Request:
 ```
 GET /requests
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -568,7 +568,7 @@ Vazio
 ### Exemplo de Request:
 ```
 GET /requests/894c3b8e-4a32-4398-8c37-36c4d75f66c1
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -617,7 +617,7 @@ Vazio
 ### Exemplo de Request:
 ```
 GET /requests/user/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token
 Content-type: application/json
 ```
@@ -667,7 +667,7 @@ Vazio
 ### Exemplo de Request:
 ```
 PATCH /requests/894c3b8e-4a32-4398-8c37-36c4d75f66c1
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin / User
 Content-type: application/json
 ```
@@ -718,7 +718,7 @@ Content-type: application/json
 ### Exemplo de Request:
 ```
 DELETE /requests/894c3b8e-4a32-4398-8c37-36c4d75f66c1
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin / User
 Content-type: application/json
 ```
@@ -775,7 +775,7 @@ O objeto Login é definido como:
 ### Exemplo de Request:
 ```
 POST /login
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: None
 Content-type: application/json
 ```
@@ -844,7 +844,7 @@ O objeto Company é definido como:
 ### Exemplo de Request:
 ```
 POST /company
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -939,7 +939,7 @@ OBS.: Chaves não presentes no schema serão removidas.
 ### Exemplo de Request:
 ```
 GET /company
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -995,7 +995,7 @@ Vazio
 ### Exemplo de Request:
 ```
 GET /users/3a2bb25f-d20e-495a-925a-245541e9b460
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -1055,7 +1055,7 @@ Vazio
 ### Exemplo de Request:
 ```
 PATCH /company/3a2bb25f-d20e-495a-925a-245541e9b460
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -1100,7 +1100,7 @@ Content-type: application/json
 ### Exemplo de Request:
 ```
 DELETE /company/3a2bb25f-d20e-495a-925a-245541e9b460
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -1162,7 +1162,7 @@ O objeto Vehicles é definido como:
 ### Exemplo de Request:
 ```
 POST /vehicles/company/3a2bb25f-d20e-495a-925a-245541e9b460
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -1230,7 +1230,7 @@ OBS.: Chaves não presentes no schema serão removidas.
 ### Exemplo de Request:
 ```
 GET /vehicles/company/3a2bb25f-d20e-495a-925a-245541e9b460
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
@@ -1286,7 +1286,7 @@ Vazio
 ### Exemplo de Request:
 ```
 DELETE /vehicles/d514ee4d-deef-4f26-bdf3-6e972c493c97
-Host: https://kenzie-log.onrender.com
+Host: https://kenzielogapi.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
 ```
