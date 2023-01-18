@@ -29,8 +29,9 @@ const editCompanyController = async (req: Request, res: Response) => {
 };
 
 const deactivateCompanyController = async (req: Request, res: Response) => {
-  const data = await deactivateCompanyService();
-  return res.status(200).json(data);
+  const { id } = req.params;
+  const data = await deactivateCompanyService(id);
+  return res.status(204).json(data);
 };
 
 export {

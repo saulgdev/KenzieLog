@@ -1,6 +1,9 @@
 import * as yup from "yup";
 import { SchemaOf } from "yup";
-import { ICreateCompany } from "../interfaces/company/company.interfaces";
+import {
+  ICreateCompany,
+  IEditCompany,
+} from "../interfaces/company/company.interfaces";
 
 const createCompanySchema: SchemaOf<ICreateCompany> = yup.object().shape({
   name: yup.string().required(),
@@ -23,4 +26,8 @@ const createCompanySchema: SchemaOf<ICreateCompany> = yup.object().shape({
     .required(),
 });
 
-export { createCompanySchema };
+const editCompanySchema: SchemaOf<IEditCompany> = yup.object().shape({
+  openingTime: yup.string().required(),
+});
+
+export { createCompanySchema, editCompanySchema };

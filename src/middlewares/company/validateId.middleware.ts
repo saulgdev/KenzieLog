@@ -14,14 +14,14 @@ const validateCompanyIdMiddleware = async (
   const isUuid = regexExp.test(id);
 
   if (!isUuid) {
-    throw new AppError("Invalid uuid.");
+    throw new AppError("Invalid uuid.", 401);
   }
 
   const companyRepo = AppDataSource.getRepository(Company);
   const companyExists = await companyRepo.findOneBy({ id });
 
   if (!companyExists) {
-    throw new AppError("Company not registered.");
+    throw new AppError("Company not registered.", 404);
   }
 
   next();

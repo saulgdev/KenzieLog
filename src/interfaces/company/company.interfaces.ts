@@ -13,3 +13,6 @@ export interface ICreateContact {
   email: string;
 }
 
+export interface IEditCompany {
+  openingTime: string;
+}
