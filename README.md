@@ -852,11 +852,11 @@ Content-type: application/json
 ### Corpo da Requisição:
 ```json
 {
-  "name": "Unidade TWO N3",
+  "name": "Unidade carioca",
   "openingTime": "09:00 às 18:00",
   "cnpj": "42.607.321/0001-15",
   "address": {
-    "district": "Rua Number Two",
+    "district": "Rua Candelária",
     "zipCode": "21754188",
     "number": "500",
     "city": "Rio de Janeiro",
@@ -864,7 +864,7 @@ Content-type: application/json
   },
   "contacts": {
     "phoneNumber": "21983751995"
-    "email": "agenciaN1@mail.com"
+    "email": "agenciacarioca@mail.com"
   }
 }
 ```
@@ -899,41 +899,46 @@ OBS.: Chaves não presentes no schema serão removidas.
 
 ```json
 {
-  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
-  "name": "Marcio",
-  "email": "marcio@mail.com",
-  "isAdm": true,
-  "isActive": true,
-  "createdAt": "16/01/2023"
-  "updatedAt": "16/01/2023"
-  "address": {
-    "id": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
-    "district": "Rua Santa Ana",
-    "zipCode": "26054188",
-    "number": "21",
-    "city": "Rio de Janeiro",
-    "state": "RJ",
-  },
+    "id": "3a2bb25f-d20e-495a-925a-245541e9b460",
+    "name": "Unidade carioca",
+    "openingTime": "09:00 às 18:00",
+    "cnpj": "42.607.321/0001-15",
+    "address": {
+    	"id": "775b52a7-c728-4691-ab87-c06352dbc5b9",
+    	"district": "Rua Candelária",
+    	"zipCode": "21754188",
+    	"number": "500",
+    	"city": "Rio de Janeiro",
+    	"state": "RJ"
+    },
+    "contacts": {
+    	"id": "f56f163e-93f6-4f75-bf82-f02631029d60",
+    	"phoneNumber": "21983751995",
+    	"email": "agenciacarioca@mail.com"
+    },
+    "isActive": true,
+    "createdAt": "2023-01-18T17:52:34.166Z",
+    "updatedAt": "2023-01-18T17:52:34.166Z"
 }
 ```
 
 ### Possíveis Erros:
-| Código do Erro | Descrição 			 |
+| Código do Erro | Descrição 			         |
 |----------------|-------------------------------|
-| 409 Conflict   | Email already registered.     |
-| 400 Bad Requiest | Missing fields.             |
-
+| 401 Unauthorized | Is not admin.               |
+| 400 Bad Request | Missing fields.              |
+| 400 Bad Request | Cnpj/Address/Contact is already registered. |
 ---
 
-### 4.2. **Listando Usuários**
+### 4.2. **Listando Unidade**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users`
+### `/company`
 
 ### Exemplo de Request:
 ```
-GET /users
+GET /company
 Host: https://kenzie-log.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
@@ -950,35 +955,46 @@ Vazio
 ```json
 [
   {
-    "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
-    "name": "Marcio",
-    "email": "marcio@mail.com",
-    "isAdm": true,
+    "id": "3a2bb25f-d20e-495a-925a-245541e9b460",
+    "name": "Unidade carioca",
     "isActive": true,
-    "createdAt": "16/01/2023",
-    "updatedAt": "16/01/2023",
-    "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+    "openingTime": "09:00 às 18:00",
+    "cnpj": "42.607.321/0001-15",
+    "createdAt": "2023-01-18T17:52:34.166Z",
+    "updatedAt": "2023-01-18T17:52:34.166Z",
+    "address": {
+    	"id": "775b52a7-c728-4691-ab87-c06352dbc5b9",
+    	"district": "Rua Candelária",
+    	"zipCode": "21754188",
+    	"number": "500",
+    	"city": "Rio de Janeiro",
+    	"state": "RJ"
+    },
+    "contacts": {
+    	"id": "f56f163e-93f6-4f75-bf82-f02631029d60",
+    	"phoneNumber": "21983751995",
+    	"email": "agenciacarioca@mail.com"
+    },
   }
 ]
 ```
 
 ### Possíveis Erros:
-| Código do Erro | Descrição 			 |
+| Código do Erro | Descrição 			         |
 |----------------|-------------------------------|
-| 401 Unauthorized   | Invalid bearer token.     |
-| 401 Unauthorized   | Bad Request.              |
+| 401 Unauthorized | Is not admin.               |
 
 ---
 
-### 4.3. **Listando Usuários por ID**
+### 4.3. **Listando Unidade por ID**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users/:user_id`
+### `/company/:company_id`
 
 ### Exemplo de Request:
 ```
-GET /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+GET /users/3a2bb25f-d20e-495a-925a-245541e9b460
 Host: https://kenzie-log.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
@@ -987,7 +1003,7 @@ Content-type: application/json
 ### Parâmetros da Requisição:
 | Parâmetro   | Tipo        | Descrição                             |
 |-------------|-------------|---------------------------------------|
-| user_id     | string      | Identificador único do usuário (User) |
+| company_id  | string      | Identificador único da unidade (Company) |
 
 ### Corpo da Requisição:
 ```json
@@ -999,34 +1015,46 @@ Vazio
 ```
 ```json
 {
-  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
-  "name": "Marcio",
-  "email": "marcio@mail.com",
-  "isAdm": true,
-  "isActive": true,
-  "createdAt": "16/01/2023",
-  "updatedAt": "16/01/2023",
-  "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+    "id": "3a2bb25f-d20e-495a-925a-245541e9b460",
+    "name": "Unidade carioca",
+    "isActive": true,
+    "openingTime": "09:00 às 18:00",
+    "cnpj": "42.607.321/0001-15",
+    "createdAt": "2023-01-18T17:52:34.166Z",
+    "updatedAt": "2023-01-18T17:52:34.166Z",
+    "address": {
+    	"id": "775b52a7-c728-4691-ab87-c06352dbc5b9",
+    	"district": "Rua Candelária",
+    	"zipCode": "21754188",
+    	"number": "500",
+    	"city": "Rio de Janeiro",
+    	"state": "RJ"
+    },
+    "contacts": {
+    	"id": "f56f163e-93f6-4f75-bf82-f02631029d60",
+    	"phoneNumber": "21983751995",
+    	"email": "agenciacarioca@mail.com"
+    },
 }
 ```
 
 ### Possíveis Erros:
 | Código do Erro | Descrição 			 |
 |----------------|-------------------------------|
-| 401 Unauthorized   | Invalid bearer token.     |
-| 404 Not found      | User not found.           |
+| 401 Unauthorized   | Is not admin.             |
+| 404 Not found      | Company not found.        |
 
 ---
 
-### 4.4. **Editando Usuários por ID**
+### 4.4. **Editando unidade por ID**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users/:user_id`
+### `/company/:company_id`
 
 ### Exemplo de Request:
 ```
-PATCH /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+PATCH /company/3a2bb25f-d20e-495a-925a-245541e9b460
 Host: https://kenzie-log.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
@@ -1035,12 +1063,12 @@ Content-type: application/json
 ### Parâmetros da Requisição:
 | Parâmetro   | Tipo        | Descrição                             |
 |-------------|-------------|---------------------------------------|
-| user_id     | string      | Identificador único do usuário (User) |
+| company_id  | string      | Identificador único da unidade (Company) |
 
 ### Corpo da Requisição:
 ```json
 {
-  "email": "editingmail@mail.com"
+    "openingTime": "11:00 às 15:00"
 }
 ```
 ### Exemplo de Response:
@@ -1049,26 +1077,21 @@ Content-type: application/json
 ```
 ```json
 {
-  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
-  "name": "Marcio",
-  "email": "editingmail@mail.com",
-  "isAdm": true,
-  "isActive": true,
-  "createdAt": "16/01/2023",
-  "updatedAt": "16/01/2023",
-  "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+    "id": "41eb5a29-80b8-430b-b8aa-e4825a0664d4",
+    "openingTime": "11:00 às 15:00",
+    "updatedAt": "2023-01-18T17:52:34.166Z"
 }
 ```
 
 ### Possíveis Erros:
-| Código do Erro | Descrição 			 |
+| Código do Erro | Descrição 			         |
 |----------------|-------------------------------|
-| 401 Unauthorized   | Invalid bearer token.     |
-| 403 Forbidden      | Unauthorized.             |
-| 401 Unauthorized      | User not found.        |
+| 401 Unauthorized   | Is not admin.             |
+| 404 Not found      | Company not found.        |
+| 400 Bad Request    | Missing fields.           |
 ---
 
-### 4.5. **Deletando Usuários por ID**
+### 4.5. **Deletando unidade por ID**
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
@@ -1076,7 +1099,7 @@ Content-type: application/json
 
 ### Exemplo de Request:
 ```
-DELETE /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+DELETE /company/3a2bb25f-d20e-495a-925a-245541e9b460
 Host: https://kenzie-log.onrender.com
 Authorization: Bearer Token Admin
 Content-type: application/json
@@ -1085,7 +1108,7 @@ Content-type: application/json
 ### Parâmetros da Requisição:
 | Parâmetro   | Tipo        | Descrição                             |
 |-------------|-------------|---------------------------------------|
-| user_id     | string      | Identificador único do usuário (User) |
+| company_id  | string      | Identificador único da unidade (Company) |
 
 ### Corpo da Requisição:
 ```json
@@ -1100,10 +1123,10 @@ Vazio
 ```
 
 ### Possíveis Erros:
-| Código do Erro | Descrição 			 |
+| Código do Erro | Descrição 			         |
 |----------------|-------------------------------|
-| 401 Unauthorized   | Invalid bearer token.     |
-| 404 Not found      | User not found.           |
+| 401 Unauthorized   | Is not admin.             |
+| 404 Not found      | Company not found.        |
 
 ---
 
