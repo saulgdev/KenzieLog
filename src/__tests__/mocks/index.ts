@@ -40,4 +40,5 @@ export const mockedRequest = {
   name: "pedido de entrega",
   weight: 30,
   cubicMeters: 3,
+  userId: ""
 };

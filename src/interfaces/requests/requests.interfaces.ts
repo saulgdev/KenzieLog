@@ -5,7 +5,6 @@ export interface ICreateRequest {
   weight: number;
   cubicMeters: number;
   userId: string;
-  distance: number;
 }
 
 export interface IRequestResponse {
