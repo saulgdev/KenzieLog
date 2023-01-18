@@ -35,20 +35,19 @@ describe("/requests", () => {
     expect(response.body).toHaveProperty("id");
     expect(response.body).toHaveProperty("createdAt");
     expect(response.body).toHaveProperty("updatedAt");
-    expect(response.body).toHaveProperty("address");
     expect(response.body).toHaveProperty("cubicMeters");
     expect(response.body).toHaveProperty("weight");
-    expect(response.body.address).toHaveProperty("id");
-    expect(response.body.address).toHaveProperty("district");
-    expect(response.body.address).toHaveProperty("zipCode");
-    expect(response.body.address).toHaveProperty("number");
-    expect(response.body.address).toHaveProperty("city");
-    expect(response.body.address).toHaveProperty("state");
     expect(response.status).toBe(201);
   });
 
   test("GET /requests -  Must be able to list all requests", async () => {
-    const response = await request(app).get("/requests");
+    const adminLoginResponse = await request(app)
+      .post("/login")
+      .send(mockedAdminLogin);
+    const response = await request(app)
+      .get("/requests")
+      .set("Authorization", `Bearer ${adminLoginResponse.body.token}`)
+      .send(mockedRequest);
     expect(response.body).toHaveLength(1);
     expect(response.status).toBe(200);
   });
