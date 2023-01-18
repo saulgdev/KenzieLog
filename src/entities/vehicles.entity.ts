@@ -15,6 +15,8 @@ export class Vehicles {
   @Column()
   type: string;
 
-  @ManyToOne(() => Company, (company) => company.vehicles)
+  @ManyToOne(() => Company, (company) => company.vehicles, {
+    onDelete: "CASCADE",
+  })
   companyWorkPlace: Company;
 }
