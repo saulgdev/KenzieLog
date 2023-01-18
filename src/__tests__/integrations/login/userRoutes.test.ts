@@ -47,7 +47,6 @@ describe("/login", () => {
     const findUser = await request(app)
       .get("/users")
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`);
-    console.log(await findUser.body[0]);
     await request(app)
       .delete(`/users/${findUser.body[0].id}`)
       .set("Authorization", `Bearer ${adminLoginResponse.body.token}`);

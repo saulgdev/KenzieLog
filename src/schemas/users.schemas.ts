@@ -4,6 +4,7 @@ import { IUserLogin } from "../interfaces/session/login.interfaces";
 import {
   ICreateUser,
   IUserWithoutPass,
+  IUserPatch
 } from "../interfaces/users/users.interfaces";
 
 const createUserSchema: SchemaOf<ICreateUser> = yup.object().shape({
@@ -46,9 +47,19 @@ const loginUserSchema: SchemaOf<IUserLogin> = yup.object().shape({
 const userWithoutPasswordArraySchema: SchemaOf<IUserWithoutPass[]> =
   yup.array(showUserWithoutPass);
 
+const userPatchSchema: SchemaOf<IUserPatch> = yup.object().shape({
+    id: yup.string().optional(),
+    name: yup.string().required(),
+    email: yup.string().required(),
+    isAdm: yup.boolean().optional(),
+    createdAt: yup.date().optional(),
+    updatedAt: yup.date().optional()
+})
+
 export {
   createUserSchema,
   showUserWithoutPass,
   loginUserSchema,
   userWithoutPasswordArraySchema,
+  userPatchSchema
 };

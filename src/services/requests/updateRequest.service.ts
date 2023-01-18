@@ -8,7 +8,7 @@ const updateRequestService = async (
   requestId: string
 ) => {
   const requestRepository = AppDataSource.getRepository(Requests);
-  const request = requestRepository.findOneBy({
+  const request = await requestRepository.findOneBy({
     id: requestId,
   });
 
@@ -16,9 +16,13 @@ const updateRequestService = async (
     throw new AppError("Request not exists", 404);
   }
 
-  const response = await requestRepository.update(requestId, data);
+  await requestRepository.update(requestId, data);
 
-  return response;
+  const response = await requestRepository.findOneBy({
+    id: requestId,
+  });
+
+  return { message: "Pedido atualizado com sucesso" };
 };
 
 export default updateRequestService;

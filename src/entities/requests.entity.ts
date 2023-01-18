@@ -16,7 +16,7 @@ export class Requests {
   @Column({ length: 256 })
   name: string;
 
-  @Column({ length: 50, default: "pending" })
+  @Column({ default: "pending" })
   status: string;
 
   @Column({ type: "decimal", precision: 10, scale: 2 })

@@ -1,35 +1,55 @@
+import { request } from "http";
 import AppDataSource from "../../data-source";
 import { Requests } from "../../entities/requests.entity";
 import { Users } from "../../entities/users.entitiy";
 import { AppError } from "../../error/appError";
 import { ICreateRequest } from "../../interfaces/requests/requests.interfaces";
 
-const createRequestService = async (data: ICreateRequest) => {
-  
-  const { name, userId } = data;
+const createRequestService = async (data: ICreateRequest, idUser: string) => {
+  const { name, userId, weight, cubicMeters } = data;
+
   const requestRepository = AppDataSource.getRepository(Requests);
-  const requestAlreadyExists = requestRepository.findOneBy({
+
+  const requestAlreadyExists = await requestRepository.findOneBy({
     name: name,
   });
-
   if (requestAlreadyExists) {
     throw new AppError("Request already exists", 409);
   }
 
-  const userRepository = AppDataSource.getRepository(Users)
-  const user = userRepository.findOneBy({
-    id: userId
-  })
-
-  if(!user) {
-    throw new AppError("User not exists", 404);
+  const userRepository = AppDataSource.getRepository(Users);
+  const user = await userRepository.findOneBy({
+    id: idUser,
+  });
+  if (!user) {
+    throw new AppError("User not exists111", 404);
   }
 
-  const createdRequest = requestRepository.create(data);
+  const now = new Date();
 
-  const returned = await requestRepository.save(createdRequest);
+  now.setDate(now.getDate() + 7);
 
-  return returned;
+  const dataCreate = {
+    name,
+    weight,
+    cubicMeters,
+    deadline: now,
+    user: { ...user, password: undefined },
+    address: user.address,
+  };
+
+  const createdRequest = requestRepository.create(dataCreate);
+
+  return await requestRepository.save(createdRequest);
+
+  /*   const response = await requestRepository
+    .createQueryBuilder("requests")
+    .innerJoinAndSelect("requests.user", "users")
+    .innerJoinAndSelect("users.address", "address")
+    .where("requests.id = :id", { id: createdRequest.id })
+    .getMany();
+
+  return response; */
 };
 
 export default createRequestService;

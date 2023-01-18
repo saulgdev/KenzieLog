@@ -3,12 +3,13 @@ import { Response, Request } from "express";
 import createRequestService from "../services/requests/createRequest.service";
 import deleteRequestService from "../services/requests/deleteRequest.service";
 import listAllRequestService from "../services/requests/listAllRequest.service";
+import listAllUserRequestService from "../services/requests/listAllUserRequest.service";
 import getRequestService from "../services/requests/listRequestUser.service";
 import updateRequestService from "../services/requests/updateRequest.service";
 
 const createRequestController = async (req: Request, res: Response) => {
-  const { body } = req;
-  const data = await createRequestService(body);
+  const { body, user } = req;
+  const data = await createRequestService(body, user.id);
 
   return res.status(201).json(data);
 };
@@ -20,8 +21,14 @@ const getRequestController = async (req: Request, res: Response) => {
   return res.status(200).json(data);
 };
 
+const listAllUserRequestController = async (req: Request, res: Response) => {
+  const data = await listAllUserRequestService(req.params.userId);
+  return res.status(200).json(data);
+};
+
 const listAllRequestController = async (req: Request, res: Response) => {
   const data = await listAllRequestService();
+
   return res.status(200).json(data);
 };
 
@@ -43,6 +50,7 @@ const deleteRequestController = async (req: Request, res: Response) => {
 export {
   createRequestController,
   getRequestController,
+  listAllUserRequestController,
   listAllRequestController,
   updateRequestController,
   deleteRequestController,
