@@ -19,7 +19,8 @@ const getVehiclesCompanyController = async (req: Request, res: Response) => {
 };
 
 const deleteVehicleController = async (req: Request, res: Response) => {
-  const data = await deleteVehicleService();
+  const { id } = req.params;
+  const data = await deleteVehicleService(id);
   return res.status(204).json(data);
 };
 
