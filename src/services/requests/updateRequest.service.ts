@@ -19,10 +19,10 @@ const updateRequestService = async (
   await requestRepository.update(requestId, data);
 
   const response = await requestRepository.findOneBy({
-    id: requestId
-  })
+    id: requestId,
+  });
 
-  return response;
+  return { message: "Pedido atualizado com sucesso" };
 };
 
 export default updateRequestService;

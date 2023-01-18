@@ -40,16 +40,16 @@ const createRequestService = async (data: ICreateRequest, idUser: string) => {
 
   const createdRequest = requestRepository.create(dataCreate);
 
-  await requestRepository.save(createdRequest);
+  return await requestRepository.save(createdRequest);
 
-  const response = await requestRepository
+  /*   const response = await requestRepository
     .createQueryBuilder("requests")
     .innerJoinAndSelect("requests.user", "users")
     .innerJoinAndSelect("users.address", "address")
     .where("requests.id = :id", { id: createdRequest.id })
     .getMany();
 
-  return response;
+  return response; */
 };
 
 export default createRequestService;
