@@ -43,7 +43,7 @@ https://kenzie-log.onrender.com
 
 Diagrama ER da API definindo bem as relações entre as tabelas do banco de dados.
 
-![DER](https://user-images.githubusercontent.com/106371099/212327335-1e4e841a-e870-43af-86d6-40ad671667cb.png)
+![DER](https://i.imgur.com/Jg2nhMU.png)
 
 ---
 
@@ -114,9 +114,9 @@ Por enquanto, não foi implementada autenticação.
     - [PATCH - /company/:company_id](#44-editando-unidade-por-id)
     - [DELETE - /company/:company_id](#45-deletando-unidade-por-id)
 - [Vehicles](#5-users)
-    - [POST - vehicles/company/:company_id](#51-registro-de-veiculo)
-    - [GET - vehicles/company/:company_id](#52-listando-veiculos)
-    - [DELETE - vehicles/:vehicle_id](#55-deletando-veiculo-por-id)
+    - [POST - vehicles/company/:company_id](#51-registro-de-veículo)
+    - [GET - vehicles/company/:company_id](#52-listando-veículos)
+    - [DELETE - vehicles/:vehicle_id](#53-deletando-veículo-por-id)
 ---
 
 ## 1. **Users**
@@ -1095,7 +1095,7 @@ Content-type: application/json
 
 [ Voltar para os Endpoints ](#5-endpoints)
 
-### `/users/:user_id`
+### `/company/:company_id`
 
 ### Exemplo de Request:
 ```
@@ -1129,6 +1129,194 @@ Vazio
 | 404 Not found      | Company not found.        |
 
 ---
+
+## 5. **Vehicles**
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto Vehicles é definido como:
+
+| Campo      | Tipo   | Descrição                                     	|
+| -----------|--------|-------------------------------------------------|
+| id         | string | Identificador único do veículo.                 |
+| name       | string | O nome do veículo.                              |
+| sign       | string | Placa do veículo.                               |
+| type       | string | Tipo do veículo                                 |
+| companyWorkPlace | Object | Informações da unidade em que o veículo pertence. |
+
+### Endpoints
+
+| Método   | Rota       | Descrição                               		         |
+|----------|------------|--------------------------------------------------------|
+| POST     | /vehicles/company/:company_id | Registro de uma veículo pertencente a uma unidade.  |
+| GET      | /vehicles/company/:company_id | Lista todos os veículos pertencentes a uma unidade.  |
+| DELETE   | /vehicles/:vehicle_id | Deleta o registro do veículo                |
+
+---
+
+### 5.1. **Registro de veículo**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/vehicles/company/:company_id`
+
+### Exemplo de Request:
+```
+POST /vehicles/company/3a2bb25f-d20e-495a-925a-245541e9b460
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| company_id  | string      | Identificador único da unidade (Company) |
+
+### Corpo da Requisição:
+```json
+{
+    "name": "Fiat Strada 1.6",
+    "sign": "JDK-1832",
+    "type": "Utilitário"
+}
+```
+
+### Schema de Validação com Yup:
+```javascript
+  name: yup.string().required(),
+  sign: yup.string().required(),
+  type: yup.string().required(),
+```
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:
+```
+201 Created
+```
+
+```json
+{
+    "id": "d514ee4d-deef-4f26-bdf3-6e972c493c97",
+    "name": "Fiat Strada 1.6",
+    "sign": "JDK-1832",
+    "type": "Utilitário",
+    "companyWorkPlace": {
+    	"id": "3a2bb25f-d20e-495a-925a-245541e9b460",
+    	"name": "Unidade carioca",
+    	"isActive": true,
+    	"openingTime": "11:00 às 15:00",
+    	"cnpj": "42.607.321/0001-15",
+    	"createdAt": "2023-01-18T13:16:02.136Z",
+    	"updatedAt": "2023-01-18T15:56:36.574Z"
+    }
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			         |
+|----------------|-------------------------------|
+| 401 Unauthorized | Is not admin.               |
+| 400 Bad Request  | Missing fields.             |
+| 409 Conflict     | Company is deactivate.      |
+| 404 Not found    | Company not found.          |
+---
+
+### 5.2. **Listando veículos**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/vehicles/company/:company_id`
+
+### Exemplo de Request:
+```
+GET /vehicles/company/3a2bb25f-d20e-495a-925a-245541e9b460
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| company_id  | string      | Identificador único da unidade (Company) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+    "id": "3a2bb25f-d20e-495a-925a-245541e9b460",
+    "name": "Unidade carioca",
+    "isActive": true,
+    "openingTime": "11:00 às 15:00",
+    "cnpj": "42.607.321/0001-15",
+    "createdAt": "2023-01-18T13:16:02.136Z",
+    "updatedAt": "2023-01-18T15:56:36.574Z",
+    "vehicles": [
+    	{
+    		"id": "d514ee4d-deef-4f26-bdf3-6e972c493c97",
+    		"name": "Fiat Strada 1.6",
+    		"sign": "JDK-1832",
+    		"type": "Utilitário"
+    	}
+    ]
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			         |
+|----------------|-------------------------------|
+| 401 Unauthorized | Is not admin.               |
+| 409 Conflict     | Company is deactivate.      |
+| 404 Not found    | Company not found.          |
+
+---
+
+### 5.3. **Deletando veículo por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/vehicles/:vehicle_id`
+
+### Exemplo de Request:
+```
+DELETE /vehicles/d514ee4d-deef-4f26-bdf3-6e972c493c97
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| vehicle_id  | string      | Identificador único do veículo (Vehicles) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+204 No Content
+```
+```json
+Vazio
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			         |
+|----------------|-------------------------------|
+| 401 Unauthorized | Is not admin.               |
+| 409 Conflict     | Company is deactivate.      |
+| 404 Not found    | Company not found.          |
+---
+
+
 
 
 
