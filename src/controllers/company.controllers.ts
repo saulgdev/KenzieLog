@@ -1,10 +1,13 @@
 import { Response, Request } from "express";
-import { ICreateCompany } from "../interfaces/company/company.interfaces";
 import createCompanyService from "../services/company/createCompany.service";
 import deactivateCompanyService from "../services/company/deactiveCompany.service";
 import editCompanyService from "../services/company/editCompany.service";
 import getCompaniesService from "../services/company/getCompanies.service";
 import getCompanyService from "../services/company/getCompany.service";
+import {
+  ICreateCompany,
+  IEditCompany,
+} from "../interfaces/company/company.interfaces";
 
 const createCompanyController = async (req: Request, res: Response) => {
   const clientData = req.validatedBody as ICreateCompany;
@@ -24,7 +27,9 @@ const getCompanyController = async (req: Request, res: Response) => {
 };
 
 const editCompanyController = async (req: Request, res: Response) => {
-  const data = await editCompanyService();
+  const { openingTime } = req.validatedBody as IEditCompany;
+  const { id } = req.params;
+  const data = await editCompanyService(openingTime, id);
   return res.status(200).json(data);
 };
 
