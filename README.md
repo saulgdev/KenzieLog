@@ -96,8 +96,8 @@ Por enquanto, não foi implementada autenticação.
     - [POST - /users](#11-criação-de-usuário)
     - [GET - /users](#12-listando-usuários)
     - [GET - /users/:user_id](#13-listando-usuários-por-id)
-    - [PATCH - /users](#14-editando-usuários-por-id)
-    - [DELETE - /users](#15-deletando-usuários-por-id)
+    - [PATCH - /users/:user_id](#14-editando-usuários-por-id)
+    - [DELETE - /users/:user_id](#15-deletando-usuários-por-id)
 - [Requests](#2-requests)
     - [POST - /requests](#21-criação-de-pedidos)
     - [GET - /requests](#22-listando-pedidos)
@@ -107,6 +107,16 @@ Por enquanto, não foi implementada autenticação.
     - [DELETE - /requests](#26-deletando-pedidos)
 - [Login](#3-login)
     - [POST - /login](#31-login-de-usuário)
+- [Company](#4-users)
+    - [POST - /company](#41-criação-de-unidade)
+    - [GET - /company](#42-listando-unidade)
+    - [GET - /company/:company_id](#43-listando-unidade-por-id)
+    - [PATCH - /company/:company_id](#44-editando-unidade-por-id)
+    - [DELETE - /company/:company_id](#45-deletando-unidade-por-id)
+- [Vehicles](#5-users)
+    - [POST - vehicles/company/:company_id](#51-registro-de-veiculo)
+    - [GET - vehicles/company/:company_id](#52-listando-veiculos)
+    - [DELETE - vehicles/:vehicle_id](#55-deletando-veiculo-por-id)
 ---
 
 ## 1. **Users**
@@ -792,6 +802,311 @@ Content-type: application/json
 |----------------|-------------------------------|
 | 403 Forbidden      | Wrong email/password.     |
 | 400 Bad Request    | User not found.           |
+
+---
+
+## 4. **Company**
+[ Voltar para os Endpoints ](#5-endpoints)
+
+O objeto Company é definido como:
+
+| Campo      | Tipo   | Descrição                                     	|
+| -----------|--------|-------------------------------------------------|
+| id         | string | Identificador único da unidade.                 |
+| name       | string | O nome da unidade.                              |
+| openingTime | string | Horário de abertura da unidade.                |
+| cnpj       | string | Cnpj da unidade.                                |
+| isActive   | boolean | Define se uma unidade está ativa ou não.       |
+| createdAt  | Date | Data de criação da unidade.           		    |	
+| updatedAt  | Date | Data de atualização da unidade.		            |
+| address    | Object | Informações do endereço da unidade.             |
+| contacts   | Object | Informações dos contatos da unidade.            |
+| vehicles   | Array  | Informações do veículos registrados na unidade. |
+
+### Endpoints
+
+| Método   | Rota       | Descrição                               		         |
+|----------|------------|--------------------------------------------------------|
+| POST     | /company     | Criação de uma unidade.                 		     |
+| GET      | /company     | Lista todos as unidades.                		     |
+| GET      | /company/:company_id | Lista uma unidade por ID                     |
+| PATCH    | /company/:company_id | Edita Informações de uma unidade por ID      |
+| DELETE   | /company/:company_id | Desativa uma unidade por ID                  |
+
+---
+
+### 4.1. **Criação de Unidade**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/company`
+
+### Exemplo de Request:
+```
+POST /company
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+{
+  "name": "Unidade TWO N3",
+  "openingTime": "09:00 às 18:00",
+  "cnpj": "42.607.321/0001-15",
+  "address": {
+    "district": "Rua Number Two",
+    "zipCode": "21754188",
+    "number": "500",
+    "city": "Rio de Janeiro",
+    "state": "RJ"
+  },
+  "contacts": {
+    "phoneNumber": "21983751995"
+    "email": "agenciaN1@mail.com"
+  }
+}
+```
+
+### Schema de Validação com Yup:
+```javascript
+  name: yup.string().required(),
+  openingTime: yup.string().required(),
+  cnpj: yup.string().required(),
+  address: yup
+    .object({
+      district: yup.string().required(),
+      zipCode: yup.string().max(8).required(),
+      number: yup.string().notRequired(),
+      city: yup.string().required(),
+      state: yup.string().max(2).required(),
+    })
+    .required(),
+  contacts: yup
+    .object({
+      phoneNumber: yup.string().required(),
+      email: yup.string().required(),
+    })
+    .required(),
+```
+OBS.: Chaves não presentes no schema serão removidas.
+
+### Exemplo de Response:
+```
+201 Created
+```
+
+```json
+{
+  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Marcio",
+  "email": "marcio@mail.com",
+  "isAdm": true,
+  "isActive": true,
+  "createdAt": "16/01/2023"
+  "updatedAt": "16/01/2023"
+  "address": {
+    "id": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+    "district": "Rua Santa Ana",
+    "zipCode": "26054188",
+    "number": "21",
+    "city": "Rio de Janeiro",
+    "state": "RJ",
+  },
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 409 Conflict   | Email already registered.     |
+| 400 Bad Requiest | Missing fields.             |
+
+---
+
+### 4.2. **Listando Usuários**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users`
+
+### Exemplo de Request:
+```
+GET /users
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+[
+  {
+    "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+    "name": "Marcio",
+    "email": "marcio@mail.com",
+    "isAdm": true,
+    "isActive": true,
+    "createdAt": "16/01/2023",
+    "updatedAt": "16/01/2023",
+    "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+  }
+]
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 401 Unauthorized   | Bad Request.              |
+
+---
+
+### 4.3. **Listando Usuários por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users/:user_id`
+
+### Exemplo de Request:
+```
+GET /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Marcio",
+  "email": "marcio@mail.com",
+  "isAdm": true,
+  "isActive": true,
+  "createdAt": "16/01/2023",
+  "updatedAt": "16/01/2023",
+  "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 404 Not found      | User not found.           |
+
+---
+
+### 4.4. **Editando Usuários por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users/:user_id`
+
+### Exemplo de Request:
+```
+PATCH /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+{
+  "email": "editingmail@mail.com"
+}
+```
+### Exemplo de Response:
+```
+200 OK
+```
+```json
+{
+  "id": "6baa58b7-1bdd-42aa-bb5c-4f89377e153e",
+  "name": "Marcio",
+  "email": "editingmail@mail.com",
+  "isAdm": true,
+  "isActive": true,
+  "createdAt": "16/01/2023",
+  "updatedAt": "16/01/2023",
+  "addressId": "f0d55281-8ac8-4bc0-b5d0-78ab521e1f93"
+}
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 403 Forbidden      | Unauthorized.             |
+| 401 Unauthorized      | User not found.        |
+---
+
+### 4.5. **Deletando Usuários por ID**
+
+[ Voltar para os Endpoints ](#5-endpoints)
+
+### `/users/:user_id`
+
+### Exemplo de Request:
+```
+DELETE /users/6baa58b7-1bdd-42aa-bb5c-4f89377e153e
+Host: https://kenzie-log.onrender.com
+Authorization: Bearer Token Admin
+Content-type: application/json
+```
+
+### Parâmetros da Requisição:
+| Parâmetro   | Tipo        | Descrição                             |
+|-------------|-------------|---------------------------------------|
+| user_id     | string      | Identificador único do usuário (User) |
+
+### Corpo da Requisição:
+```json
+Vazio
+```
+### Exemplo de Response:
+```
+204 No Content
+```
+```json
+Vazio
+```
+
+### Possíveis Erros:
+| Código do Erro | Descrição 			 |
+|----------------|-------------------------------|
+| 401 Unauthorized   | Invalid bearer token.     |
+| 404 Not found      | User not found.           |
+
+---
+
 
 
 
